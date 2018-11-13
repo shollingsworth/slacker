@@ -47,6 +47,12 @@ class Response(object):
         self.body = json.loads(body)
         self.successful = self.body['ok']
         self.error = self.body.get('error')
+        self.response_metadata = self.body.get('response_metadata')
+        if self.response_metadata:
+            self.error = '{} - {}'.format(
+                self.error,
+                ','.join(self.response_metadata.get('messages')),
+            )
 
     def __str__(self):
         return json.dumps(self.body)
